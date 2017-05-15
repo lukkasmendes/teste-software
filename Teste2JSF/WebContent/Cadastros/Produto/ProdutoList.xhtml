@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title></title>
+</h:head>
+<h:body onload="#{categoriaCrud.inicializarLista()}">
+	<h:form id="formLista">
+	
+
+	    <p:menuButton value="Opções">
+	        <p:menuitem value="Produto" url="/faces/Cadastros/Produto/ProdutoList.xhtml" icon="ui-icon-extlink"/>
+	        <p:menuitem value="Categoria" url="/faces/Cadastros/Categoria/CategoriaList.xhtml" icon="ui-icon-extlink"/>
+	        <p:separator />
+	        <p:menuitem value="Home" url="/faces/index.xhtml" icon="ui-icon-extlink"/>
+	    </p:menuButton>
+
+		
+		<p:dataTable var="pro" value="#{produtoCrud.lista}" paginator="true"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,15" rows="5">
+
+			<f:facet name="header">
+				<p:spacer height="30"></p:spacer>
+				<div align="left" style="position: absolute; top: 55px; width: 95%;">
+					<p:outputLabel value="Listagem de Produto"></p:outputLabel>
+				</div>
+				
+				<div align="right"
+					style="position: absolute; top: 48px; width: 95%;">
+					<p:commandButton id="botaoIncluir" value="Incluir"
+						action="#{produtoCrud.incluir}" ajax="false" />
+				</div>
+			</f:facet>
+
+
+
+
+			<p:column headerText="Código" sortBy="#{pro.id}" filterBy="#{pro.id}"
+				filterMatchMode="contains">
+				<h:outputText value="#{pro.id}" />
+			</p:column>
+			
+			<p:column headerText="Descrição" sortBy="#{pro.descricao}"
+				filterBy="#{pro.descricao}" filterMatchMode="contains">
+				<h:outputText value="#{pro.descricao}" />
+			</p:column>
+
+			<p:column headerText="Valor" sortBy="#{pro.valor}"
+				filterBy="#{pro.valor}" filterMatchMode="contains">
+				<h:outputText value="#{pro.valor}" />
+			</p:column>
+
+			<p:column headerText="Categoria" sortBy="#{pro.categoria.descricao}" 
+				filterBy="#{pro.categoria.descricao}" filterMatchMode="contains">
+					<h:outputText value="#{pro.categoria.descricao}" />
+			</p:column>
+
+
+
+			<p:column headerText="" width="90">
+				<p:commandButton action="#{produtoCrud.alterar(pro.id)}"
+					value="Alterar" ajax="false" />
+			</p:column>
+
+			<p:column headerText="" width="90">
+				<p:commandButton action="#{produtoCrud.excluir(pro.id)}"
+					value="Excluir" ajax="false"
+					onclick="if (!confirm('Confirma a exclusão?')) return false" />
+			</p:column>
+			
+			
+		</p:dataTable>
+	</h:form>
+
+</h:body>
+</html>
